@@ -53,7 +53,7 @@ public class SaleNote {
     @Override
     public String toString() {
         return  "" + buyOrderId +
-                " " + sellPrice +
+                " " + String.format("%.02f", sellPrice) +
                 " " + quantity +
                 " " + sellOrderId;
     }
