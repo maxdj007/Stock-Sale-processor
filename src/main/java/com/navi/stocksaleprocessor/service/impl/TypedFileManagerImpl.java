@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TypedFileManagerImpl implements TypedFileManager<Transaction> {
@@ -21,6 +23,7 @@ public class TypedFileManagerImpl implements TypedFileManager<Transaction> {
         List<Transaction> transactions = new ArrayList<>();
         List<String[]> dataLines = fileHandler.readData(name);
         for(String[] dataLine : dataLines){
+            dataLine = removeSpaceElements(dataLine);
             if(dataLine.length >= 6) {
                 Transaction transaction = new Transaction();
                 transaction.setOrderId(dataLine[0]);
@@ -34,4 +37,15 @@ public class TypedFileManagerImpl implements TypedFileManager<Transaction> {
         }
         return transactions;
     }
+
+    public String[] removeSpaceElements(String[] arr)
+    {
+        List<String> list = Arrays.stream(arr)
+                .filter(val -> !"".equals(val))
+                .filter(val -> !" ".equals(val))
+                .collect(Collectors.toList());
+        return list.toArray(new String[0]);
+    }
+
+
 }
